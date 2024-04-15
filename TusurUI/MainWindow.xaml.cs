@@ -232,15 +232,21 @@ namespace TusurUI
 
         private bool IsPowerSupplyErrorCodeStatusFailed(int errorCode)
         {
-            ShowWarning(PowerSupply.GetErrorMessage(errorCode));
-            UncheckVaporizerButton();
+            if (errorCode > 0)
+            {
+                ShowWarning(PowerSupply.GetErrorMessage(errorCode));
+                UncheckVaporizerButton();
+            }
             return errorCode == 0;
         }
 
         private bool IsStepMotorErrorCodeStatusFailed(int errorCode)
         {
-            ShowWarning(StepMotor.GetErrorMessage(errorCode));
-            SetShutterImageToClosed();
+            if (errorCode > 0)
+            {
+                ShowWarning(StepMotor.GetErrorMessage(errorCode));
+                SetShutterImageToClosed();
+            }
             return errorCode == 0;
         }
 
