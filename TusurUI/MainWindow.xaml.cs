@@ -103,8 +103,6 @@ namespace TusurUI
                 ShowError(ex.Message);
                 UncheckVaporizerButton();
             }
-
-            ApplyVoltageOnPowerSupply();
         }
 
         private void ApplyVoltageOnPowerSupply()
