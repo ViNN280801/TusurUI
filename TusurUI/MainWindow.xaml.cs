@@ -97,25 +97,20 @@ namespace TusurUI
 
                 if (IsPowerSupplyErrorCodeStatusFailed(PowerSupply.TurnOn()))
                     return;
-
-                if (IsPowerSupplyErrorCodeStatusFailed(PowerSupply.SetCurrentVoltage((ushort)currentValue, voltageValue)))
-                    return;
             }
             catch (Exception ex)
             {
                 ShowError(ex.Message);
                 UncheckVaporizerButton();
             }
+
+            ApplyVoltageOnPowerSupply();
         }
 
         private void ApplyVoltageOnPowerSupply()
         {
             try
             {
-                if (IsPowerSupplyCOMportNull())
-                    return;
-                PowerSupply.Connect(powerSupplyCOM);
-
                 if (IsPowerSupplyErrorCodeStatusFailed(PowerSupply.SetCurrentVoltage((ushort)currentValue, voltageValue)))
                     return;
             }
@@ -342,10 +337,7 @@ namespace TusurUI
 
                 try
                 {
-                    // 1. Turning on the power supply and setting the current and voltage.
-                    TurnOnPowerSupply();
-
-                    // 2. Reading actual current of the vaporizer.
+                    ApplyVoltageOnPowerSupply();
                     ReadCurrentVoltageAndChangeTextBox();
                 }
                 catch (Exception ex)
