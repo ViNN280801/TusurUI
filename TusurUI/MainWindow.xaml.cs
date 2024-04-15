@@ -97,14 +97,15 @@ namespace TusurUI
 
                 if (IsPowerSupplyErrorCodeStatusFailed(PowerSupply.TurnOn()))
                     return;
+
+                if (IsPowerSupplyErrorCodeStatusFailed(PowerSupply.SetCurrentVoltage((ushort)currentValue, voltageValue)))
+                    return;
             }
             catch (Exception ex)
             {
                 ShowError(ex.Message);
                 UncheckVaporizerButton();
             }
-
-            ApplyVoltageOnPowerSupply();
         }
 
         private void ApplyVoltageOnPowerSupply()
