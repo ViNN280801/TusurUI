@@ -91,6 +91,8 @@ namespace TusurUI
         {
             try
             {
+                // TODO: 
+
                 if (IsPowerSupplyCOMportNull())
                     return;
                 PowerSupply.Connect(powerSupplyCOM);
@@ -140,10 +142,6 @@ namespace TusurUI
         {
             try
             {
-                if (IsPowerSupplyCOMportNull())
-                    return;
-                PowerSupply.Connect(powerSupplyCOM);
-
                 if (IsPowerSupplyErrorCodeStatusFailed(PowerSupply.TurnOff()))
                     return;
             }
@@ -381,8 +379,8 @@ namespace TusurUI
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            //TurnOffPowerSupply();
-            //StopStepMotor();
+            TurnOffPowerSupply();
+            StopStepMotor();
         }
     }
 }

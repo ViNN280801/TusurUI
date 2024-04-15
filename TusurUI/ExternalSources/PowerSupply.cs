@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Data;
+using System.Runtime.InteropServices;
 
 namespace TusurUI.Source
 {
@@ -19,6 +20,9 @@ namespace TusurUI.Source
         [DllImport("Libs/PowerSupply.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern int PowerSupply_TurnOff();
 
+        [DllImport("Libs/PowerSupply.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int PowerSupply_ResetZP();
+
         PowerSupply() { }
 
         public static int Connect(string port) { return PowerSupply_Connect(port); }
@@ -26,6 +30,7 @@ namespace TusurUI.Source
         public static int TurnOff() { return PowerSupply_TurnOff(); }
         public static int SetCurrentVoltage(ushort current, ushort voltage) { return PowerSupply_SetCurrentVoltage(current, voltage); }
         public static int ReadCurrent() { return PowerSupply_ReadCurrent(); }
+        public static int ResetZP() { return PowerSupply_ResetZP(); }
 
         private static string GetErrorMessageEN(int errorCode)
         {
@@ -43,7 +48,7 @@ namespace TusurUI.Source
                 9 => "Failed to reset voltage setpoint.",
                 10 => "Failed to reset work mode.",
                 11 => "Failed to turn off the power supply.",
-                12 => "Failed to read acutual current value.",
+                12 => "Failed to reset ZP register (36).",
                 _ => "Unknown error."
             };
         }
@@ -63,7 +68,7 @@ namespace TusurUI.Source
                 9 => "Не удалось сбросить уставку напряжения.",
                 10 => "Не удалось сбросить рабочий режим.",
                 11 => "Не удалось выключить блок питания.",
-                12 => "Не удалось считать измеренное значение тока.",
+                12 => "Не удалось сбросить регистр ЗП(36).",
                 _ => "Неизвестная ошибка."
             };
         }
