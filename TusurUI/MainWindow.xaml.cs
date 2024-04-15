@@ -134,10 +134,6 @@ namespace TusurUI
 		            currentVoltageValues[0] - Actual current value.
 		            currentVoltageValues[1] - Actual voltage value.
 	            */
-                if (IsPowerSupplyCOMportNull())
-                    return;
-
-                PowerSupply.Connect(powerSupplyCOM);
                 ushort[]? currentVoltageValues = PowerSupply.ReadCurrentVoltage();
                 if (currentVoltageValues != null)
                     CurrentValueLabel.Content = currentVoltageValues[0].ToString() + " A";
@@ -398,8 +394,8 @@ namespace TusurUI
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            TurnOffPowerSupply();
-            StopStepMotor();
+            //TurnOffPowerSupply();
+            //StopStepMotor();
         }
     }
 }

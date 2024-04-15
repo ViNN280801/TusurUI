@@ -30,10 +30,12 @@ namespace TusurUI.Source
             IntPtr ptr = PowerSupply_ReadCurrentVoltage();
             if (ptr != IntPtr.Zero)
             {
-                byte[] tempBuffer = new byte[20 * sizeof(ushort)];
+                int size = 2;
+
+                byte[] tempBuffer = new byte[size * sizeof(ushort)];
                 Marshal.Copy(ptr, tempBuffer, 0, tempBuffer.Length);
 
-                ushort[] result = new ushort[20];
+                ushort[] result = new ushort[size];
                 Buffer.BlockCopy(tempBuffer, 0, result, 0, tempBuffer.Length);
                 return result;
             }
