@@ -124,8 +124,11 @@ namespace TusurUI
         {
             try
             {
-                if (IsPowerSupplyErrorCodeStatusFailed(PowerSupply.ReadCurrent()))
+                int current = PowerSupply.ReadCurrent();
+                if (current == -1)
                     return;
+
+                CurrentValueLabel.Content = current.ToString() + " A";
             }
             catch (Exception ex)
             {
