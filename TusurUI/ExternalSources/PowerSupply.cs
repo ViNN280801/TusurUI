@@ -11,7 +11,7 @@ namespace TusurUI.Source
         private static extern int PowerSupply_SetCurrentVoltage(ushort current, ushort voltage);
 
         [DllImport("Libs/PowerSupply.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr PowerSupply_ReadCurrentVoltage();
+        private static extern int PowerSupply_ReadCurrent();
 
         [DllImport("Libs/PowerSupply.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern int PowerSupply_TurnOn();
@@ -25,22 +25,7 @@ namespace TusurUI.Source
         public static int TurnOn() { return PowerSupply_TurnOn(); }
         public static int TurnOff() { return PowerSupply_TurnOff(); }
         public static int SetCurrentVoltage(ushort current, ushort voltage) { return PowerSupply_SetCurrentVoltage(current, voltage); }
-        public static ushort[]? ReadCurrentVoltage()
-        {
-            IntPtr ptr = PowerSupply_ReadCurrentVoltage();
-            if (ptr != IntPtr.Zero)
-            {
-                int size = 2;
-
-                byte[] tempBuffer = new byte[size * sizeof(ushort)];
-                Marshal.Copy(ptr, tempBuffer, 0, tempBuffer.Length);
-
-                ushort[] result = new ushort[size];
-                Buffer.BlockCopy(tempBuffer, 0, result, 0, tempBuffer.Length);
-                return result;
-            }
-            return null;
-        }
+        public static int ReadCurrent() { return PowerSupply_ReadCurrent(); }
 
         private static string GetErrorMessageEN(int errorCode)
         {
@@ -58,6 +43,7 @@ namespace TusurUI.Source
                 9 => "Failed to reset voltage setpoint.",
                 10 => "Failed to reset work mode.",
                 11 => "Failed to turn off the power supply.",
+                12 => "Failed to read acutual current value.",
                 _ => "Unknown error."
             };
         }
@@ -77,6 +63,7 @@ namespace TusurUI.Source
                 9 => "Не удалось сбросить уставку напряжения.",
                 10 => "Не удалось сбросить рабочий режим.",
                 11 => "Не удалось выключить блок питания.",
+                12 => "Не удалось считать измеренное значение тока.",
                 _ => "Неизвестная ошибка."
             };
         }

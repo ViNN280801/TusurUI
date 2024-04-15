@@ -126,15 +126,8 @@ namespace TusurUI
         {
             try
             {
-                /*.
-		            currentVoltageValues[0] - Actual current value.
-		            currentVoltageValues[1] - Actual voltage value.
-	            */
-                ushort[]? currentVoltageValues = PowerSupply.ReadCurrentVoltage();
-                if (currentVoltageValues != null)
-                    CurrentValueLabel.Content = currentVoltageValues[0].ToString() + " A";
-                else
-                    ShowWarning("Не удалось получить данные о текущем напряжении/токе.");
+                if (IsPowerSupplyErrorCodeStatusFailed(PowerSupply.ReadCurrent()))
+                    return;
             }
             catch (Exception ex)
             {
