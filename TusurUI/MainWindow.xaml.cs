@@ -5,6 +5,7 @@ using System.IO.Ports;
 using TusurUI.Source;
 using TusurUI.ExternalSources;
 using System.Windows.Threading;
+using System.Diagnostics.SymbolStore;
 
 namespace TusurUI
 {
@@ -91,11 +92,12 @@ namespace TusurUI
         {
             try
             {
-                // TODO: 
-
                 if (IsPowerSupplyCOMportNull())
                     return;
                 PowerSupply.Connect(powerSupplyCOM);
+
+                if (IsPowerSupplyErrorCodeStatusFailed(PowerSupply.ResetZP()))
+                    return;
 
                 if (IsPowerSupplyErrorCodeStatusFailed(PowerSupply.TurnOn()))
                     return;
@@ -275,6 +277,8 @@ namespace TusurUI
             DockPanel.SetDock(VaporizerButtonInside, Dock.Left);
             ComponentManager.ChangeIndicatorPicture(Indicator, "Images/индикатор откл.jpg");
             isVaporizerWorks = false;
+
+            CurrentValueLabel.Content = "0 A";
         }
 
         private void SetShutterImageToClosed() { ComponentManager.ChangeIndicatorPicture(Vaporizer, "Images/заслонка закр фото.png"); }
