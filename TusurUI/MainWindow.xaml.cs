@@ -130,11 +130,9 @@ namespace TusurUI
         {
             try
             {
-                /*
-		            currentVoltageValues[0] - Current set value.
-		            currentVoltageValues[1] - Voltage set value.
-		            currentVoltageValues[2] - Actual current value.
-		            currentVoltageValues[3] - Actual voltage value.
+                /*.
+		            currentVoltageValues[0] - Actual current value.
+		            currentVoltageValues[1] - Actual voltage value.
 	            */
                 if (IsPowerSupplyCOMportNull())
                     return;
@@ -142,7 +140,7 @@ namespace TusurUI
                 PowerSupply.Connect(powerSupplyCOM);
                 ushort[]? currentVoltageValues = PowerSupply.ReadCurrentVoltage();
                 if (currentVoltageValues != null)
-                    CurrentValueLabel.Content = currentVoltageValues[2].ToString() + " A";
+                    CurrentValueLabel.Content = currentVoltageValues[0].ToString() + " A";
                 else
                     ShowWarning("Не удалось получить данные о текущем напряжении/токе.");
             }
