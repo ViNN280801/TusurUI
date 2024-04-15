@@ -386,5 +386,18 @@ namespace TusurUI
             TurnOffPowerSupply();
             StopStepMotor();
         }
+
+        private void ResetZPButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (IsPowerSupplyErrorCodeStatusFailed(PowerSupply.ResetZP()))
+                    return;
+            }
+            catch (Exception ex)
+            {
+                ShowError(ex.Message);
+            }
+        }
     }
 }
