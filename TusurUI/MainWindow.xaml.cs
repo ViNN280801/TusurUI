@@ -15,6 +15,7 @@ namespace TusurUI
     public partial class MainWindow : Window
     {
         private DispatcherTimer? _comPortUpdateTimer;
+        private DispatcherTimer _statusCheckTimer;
 
         private bool isVaporizerWorks = false;
         private double currentValue { get; set; }
@@ -31,6 +32,7 @@ namespace TusurUI
         {
             InitializeComponent();
             InitializeComPortUpdateTimer();
+            InitializeStatusCheckTimer();
             PopulateComPortComboBoxes();
         }
 
@@ -43,6 +45,59 @@ namespace TusurUI
         }
 
         private void ComPortUpdateTimer_Tick(object? sender, EventArgs e) { PopulateComPortComboBoxes(); }
+
+        private void InitializeStatusCheckTimer()
+        {
+            _statusCheckTimer = new DispatcherTimer();
+            _statusCheckTimer.Interval = TimeSpan.FromMilliseconds(100);
+            _statusCheckTimer.Tick += StatusCheckTimer_Tick;
+            _statusCheckTimer.Start();
+        }
+
+        private void StatusCheckTimer_Tick(object sender, EventArgs e) { CheckMotorStatus(); }
+
+        enum MotorState { Idle, Forward, Reverse }
+        MotorState lastMotorState = MotorState.Idle;
+        private void CheckMotorStatus()
+        {
+            bool isForwardPressed = StepMotor.IsForwardButtonPressed();
+            bool isReversePressed = StepMotor.IsReverseButtonPressed();
+
+            if (isForwardPressed && lastMotorState != MotorState.Reverse)
+            {
+                // Заслонка движется вперед, активировался датчик FWD
+                StepMotor.Stop();
+                lastMotorState = MotorState.Forward;
+            }
+            else if (isReversePressed && lastMotorState != MotorState.Forward)
+            {
+                // Заслонка движется назад, активировался датчик REV
+                StepMotor.Stop();
+                lastMotorState = MotorState.Reverse;
+            }
+            else if (!isForwardPressed && !isReversePressed)
+            {
+                // Ни один из датчиков не активен
+                if (lastMotorState == MotorState.Forward)
+                {
+                    // Последнее направление было вперед, двигатель остановлен, но датчик FWD не активен
+                    // Предполагается, что заслонка не достигла конечного положения
+                    StepMotor.Forward();
+                }
+                else if (lastMotorState == MotorState.Reverse)
+                {
+                    // Последнее направление было назад, двигатель остановлен, но датчик REV не активен
+                    // Предполагается, что заслонка не достигла конечного положения
+                    StepMotor.Reverse();
+                }
+            }
+            else
+            {
+                // Ситуация, когда оба датчика активированы одновременно, является исключением
+                StepMotor.Stop();
+                lastMotorState = MotorState.Idle;
+            }
+        }
 
         private void PopulateComPortComboBoxes()
         {
@@ -387,17 +442,17 @@ namespace TusurUI
             StopStepMotor();
         }
 
-        private void ResetZPButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (IsPowerSupplyErrorCodeStatusFailed(PowerSupply.ResetZP()))
-                    return;
-            }
-            catch (Exception ex)
-            {
-                ShowError(ex.Message);
-            }
-        }
+        //private void ResetZPButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (IsPowerSupplyErrorCodeStatusFailed(PowerSupply.ResetZP()))
+        //            return;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ShowError(ex.Message);
+        //    }
+        //}
     }
 }

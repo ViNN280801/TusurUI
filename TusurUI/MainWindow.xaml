@@ -39,6 +39,6 @@
         <Button x:Name="StopShutterButton" Style="{DynamicResource StopMotorButton}" Content="Стоп" HorizontalAlignment="Left" Margin="369,463,0,0" VerticalAlignment="Top" Height="74" Width="80" Click="StopShutterButton_Click"/>
         <Button x:Name="CloseShutterButton" Style="{DynamicResource StopMotorButton}" Content="Закр" HorizontalAlignment="Left" Margin="213,463,0,0" VerticalAlignment="Top" Height="74" Width="80" Click="CloseShutterButton_Click"/>
         <Button x:Name="OpenShutterButton" Style="{DynamicResource StopMotorButton}" Content="Откр" HorizontalAlignment="Left" Margin="52,463,0,0" VerticalAlignment="Top" Height="74" Width="80" Click="OpenShutterButton_Click"/>
-        <Button x:Name="ResetZPButton" Style="{DynamicResource StopMotorButton}" Content="ЗП" HorizontalAlignment="Left" Margin="409,130,0,0" VerticalAlignment="Top" Height="74" Width="80" Click="ResetZPButton_Click"/>
+        <!--<Button x:Name="ResetZPButton" Style="{DynamicResource StopMotorButton}" Content="ЗП" HorizontalAlignment="Left" Margin="409,130,0,0" VerticalAlignment="Top" Height="74" Width="80" Click="ResetZPButton_Click"/>-->
     </Grid>
 </Window>

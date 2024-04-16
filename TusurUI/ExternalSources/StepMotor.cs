@@ -16,6 +16,15 @@ namespace TusurUI.ExternalSources
         [DllImport("Libs/StepMotor.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern int StepMotor_Stop();
 
+        [DllImport("Libs/StepMotor.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int StepMotor_GetLastState();
+
+        [DllImport("Libs/StepMotor.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int StepMotor_IsForwardButtonPressed();
+
+        [DllImport("Libs/StepMotor.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int StepMotor_IsReverseButtonPressed();
+
         public StepMotor() { }
 
         public static int Connect(string port) { return StepMotor_Connect(port); }
@@ -25,6 +34,29 @@ namespace TusurUI.ExternalSources
         public static int Reverse() { return StepMotor_Reverse(); }
 
         public static int Stop() { return StepMotor_Stop(); }
+
+        public static int GetLastMotorState() { return StepMotor_GetLastState(); }
+
+        public static bool IsForwardButtonPressed() { return StepMotor_IsForwardButtonPressed() == 1; }
+
+        public static bool IsReverseButtonPressed() { return StepMotor_IsReverseButtonPressed() == 1; }
+
+        private void UpdateMotorStateDisplay()
+        {
+            int state = StepMotor_GetLastState();
+            switch (state)
+            {
+                case 0: // IDLE
+                    break;
+                case 1: // FORWARD
+                    break;
+                case 2: // REVERSE
+                    break;
+                default:
+                    break;
+            }
+        }
+
 
         private static string GetErrorMessageEN(int errorCode)
         {
