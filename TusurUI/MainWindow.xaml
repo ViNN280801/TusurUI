@@ -36,9 +36,9 @@
         <Label x:Name="SystemStateLabel" Content="Система не работает" Style="{DynamicResource SystemStateLabel}" HorizontalAlignment="Left" Margin="432,606,0,0" VerticalAlignment="Top" Height="55" Width="362"/>
         <Label x:Name="CurrentValueLabel" Style="{DynamicResource AdditionalLabel}" HorizontalAlignment="Left" Margin="432,684,0,0" VerticalAlignment="Top" Height="48" Width="231" Content="0 A"/>
         <Label Style="{DynamicResource AdditionalLabel}" HorizontalAlignment="Left" Margin="232,293,0,0" VerticalAlignment="Top" Height="48" Width="42" Content="A"/>
-        <Button x:Name="StopShutterButton" Style="{DynamicResource StopMotorButton}" Content="Стоп" HorizontalAlignment="Left" Margin="369,463,0,0" VerticalAlignment="Top" Height="74" Width="80" Click="StopShutterButton_Click"/>
-        <Button x:Name="CloseShutterButton" Style="{DynamicResource StopMotorButton}" Content="Закр" HorizontalAlignment="Left" Margin="213,463,0,0" VerticalAlignment="Top" Height="74" Width="80" Click="CloseShutterButton_Click"/>
-        <Button x:Name="OpenShutterButton" Style="{DynamicResource StopMotorButton}" Content="Откр" HorizontalAlignment="Left" Margin="52,463,0,0" VerticalAlignment="Top" Height="74" Width="80" Click="OpenShutterButton_Click"/>
+        <Button x:Name="StopShutterButton" Style="{DynamicResource StopMotorButton}" Background="White" Content="Стоп" HorizontalAlignment="Left" Margin="369,463,0,0" VerticalAlignment="Top" Height="74" Width="80" Click="StopShutterButton_Click"/>
+        <Button x:Name="CloseShutterButton" Style="{DynamicResource StopMotorButton}" Background="White" Content="Закр" HorizontalAlignment="Left" Margin="213,463,0,0" VerticalAlignment="Top" Height="74" Width="80" Click="CloseShutterButton_Click"/>
+        <Button x:Name="OpenShutterButton" Style="{DynamicResource StopMotorButton}" Background="White" Content="Откр" HorizontalAlignment="Left" Margin="52,463,0,0" VerticalAlignment="Top" Height="74" Width="80" Click="OpenShutterButton_Click"/>
         <!--<Button x:Name="ResetZPButton" Style="{DynamicResource StopMotorButton}" Content="ЗП" HorizontalAlignment="Left" Margin="409,130,0,0" VerticalAlignment="Top" Height="74" Width="80" Click="ResetZPButton_Click"/>-->
     </Grid>
 </Window>

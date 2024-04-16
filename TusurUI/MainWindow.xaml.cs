@@ -409,7 +409,12 @@ namespace TusurUI
             isShutterCloseButtonClicked = false;
             isMotorStopButtonClicked = false;
 
+            StopShutterButton.Background = new SolidColorBrush(Colors.White);
+            CloseShutterButton.Background = new SolidColorBrush(Colors.White);
+            OpenShutterButton.Background = new SolidColorBrush(Colors.Green);
+
             OpenShutter();
+            SetShutterImageToOpened();
         }
 
         private void CloseShutterButton_Click(object sender, RoutedEventArgs e)
@@ -421,7 +426,12 @@ namespace TusurUI
             isShutterCloseButtonClicked = true;
             isMotorStopButtonClicked = false;
 
+            StopShutterButton.Background = new SolidColorBrush(Colors.White);
+            CloseShutterButton.Background = new SolidColorBrush(Colors.Red);
+            OpenShutterButton.Background = new SolidColorBrush(Colors.White);
+
             CloseShutter();
+            SetShutterImageToClosed();
         }
 
         private void StopShutterButton_Click(object sender, RoutedEventArgs e)
@@ -432,6 +442,10 @@ namespace TusurUI
             isShutterOpenButtonClicked = false;
             isShutterCloseButtonClicked = false;
             isMotorStopButtonClicked = true;
+
+            StopShutterButton.Background = new SolidColorBrush(Colors.Gray);
+            CloseShutterButton.Background = new SolidColorBrush(Colors.White);
+            OpenShutterButton.Background = new SolidColorBrush(Colors.White);
 
             StopStepMotor();
         }
