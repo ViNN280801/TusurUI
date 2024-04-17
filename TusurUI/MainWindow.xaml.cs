@@ -21,10 +21,6 @@ namespace TusurUI
         private double currentValue { get; set; }
         private ushort voltageValue = 6;
 
-        private bool isShutterOpenButtonClicked = false;
-        private bool isShutterCloseButtonClicked = false;
-        private bool isMotorStopButtonClicked = false;
-
         private string powerSupplyCOM = "";
         private string stepMotorCOM = "";
 
@@ -222,6 +218,7 @@ namespace TusurUI
 
                 lastMotorState = MotorState.Forward;
                 SetShutterImageToOpened();
+                ColorizeOpenShutterButton();
             }
             catch (Exception ex)
             {
@@ -243,10 +240,12 @@ namespace TusurUI
 
                 lastMotorState = MotorState.Reverse;
                 SetShutterImageToClosed();
+                ColorizeCloseShutterButton();
             }
             catch (Exception ex)
             {
                 ShowError(ex.Message);
+                SetShutterImageToClosed();
             }
         }
 
@@ -262,6 +261,7 @@ namespace TusurUI
                     return;
 
                 lastMotorState = MotorState.Idle;
+                ColorizeStopStepMotorButton();
             }
             catch (Exception ex)
             {
@@ -404,53 +404,60 @@ namespace TusurUI
                 ShowWarning("Сперва нужно включить управление испарителем");
         }
 
-        private void OpenShutterButton_Click(object sender, RoutedEventArgs e)
+        private void ColorizeOpenShutterButton()
         {
-            // Preventing double click on the same button.
-            if (isShutterOpenButtonClicked)
-                return;
-            isShutterOpenButtonClicked = true;
-            isShutterCloseButtonClicked = false;
-            isMotorStopButtonClicked = false;
-
-            StopShutterButton.Background = new SolidColorBrush(Colors.White);
+            StopStepMotorButton.Background = new SolidColorBrush(Colors.White);
             CloseShutterButton.Background = new SolidColorBrush(Colors.White);
             OpenShutterButton.Background = new SolidColorBrush(Colors.Green);
+        }
 
+        private void ColorizeCloseShutterButton()
+        {
+            StopStepMotorButton.Background = new SolidColorBrush(Colors.White);
+            CloseShutterButton.Background = new SolidColorBrush(Colors.Red);
+            OpenShutterButton.Background = new SolidColorBrush(Colors.White);
+        }
+
+        private void ColorizeStopStepMotorButton()
+        {
+            StopStepMotorButton.Background = new SolidColorBrush(Colors.Gray);
+            CloseShutterButton.Background = new SolidColorBrush(Colors.White);
+            OpenShutterButton.Background = new SolidColorBrush(Colors.White);
+        }
+
+        private void SetDisabledOpenShutterButton()
+        {
+            OpenShutterButton.IsEnabled = false;
+            CloseShutterButton.IsEnabled = true;
+        }
+
+        private void SetDisabledCloseShutterButton()
+        {
+            OpenShutterButton.IsEnabled = true;
+            CloseShutterButton.IsEnabled = false;
+        }
+
+        private void SetEnablesOpenCloseShutterButtons()
+        {
+            OpenShutterButton.IsEnabled = true;
+            CloseShutterButton.IsEnabled = true;
+        }
+
+        private void OpenShutterButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetDisabledOpenShutterButton();
             OpenShutter();
-            SetShutterImageToOpened();
         }
 
         private void CloseShutterButton_Click(object sender, RoutedEventArgs e)
         {
-            // Preventing double click on the same button.
-            if (isShutterCloseButtonClicked)
-                return;
-            isShutterOpenButtonClicked = false;
-            isShutterCloseButtonClicked = true;
-            isMotorStopButtonClicked = false;
-
-            StopShutterButton.Background = new SolidColorBrush(Colors.White);
-            CloseShutterButton.Background = new SolidColorBrush(Colors.Red);
-            OpenShutterButton.Background = new SolidColorBrush(Colors.White);
-
+            SetDisabledCloseShutterButton();
             CloseShutter();
-            SetShutterImageToClosed();
         }
 
-        private void StopShutterButton_Click(object sender, RoutedEventArgs e)
+        private void StopStepMotorButton_Click(object sender, RoutedEventArgs e)
         {
-            // Preventing double click on the same button.
-            if (isMotorStopButtonClicked)
-                return;
-            isShutterOpenButtonClicked = false;
-            isShutterCloseButtonClicked = false;
-            isMotorStopButtonClicked = true;
-
-            StopShutterButton.Background = new SolidColorBrush(Colors.Gray);
-            CloseShutterButton.Background = new SolidColorBrush(Colors.White);
-            OpenShutterButton.Background = new SolidColorBrush(Colors.White);
-
+            SetEnablesOpenCloseShutterButtons();
             StopStepMotor();
         }
 
