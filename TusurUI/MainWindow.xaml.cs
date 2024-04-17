@@ -15,7 +15,7 @@ namespace TusurUI
     public partial class MainWindow : Window
     {
         private DispatcherTimer? _comPortUpdateTimer;
-        private DispatcherTimer _statusCheckTimer;
+        private DispatcherTimer? _statusCheckTimer;
 
         private bool isVaporizerWorks = false;
         private double currentValue { get; set; }
@@ -54,7 +54,7 @@ namespace TusurUI
             _statusCheckTimer.Start();
         }
 
-        private void StatusCheckTimer_Tick(object sender, EventArgs e) { CheckMotorStatus(); }
+        private void StatusCheckTimer_Tick(object? sender, EventArgs e) { CheckMotorStatus(); }
 
         enum MotorState { Idle, Forward, Reverse }
         MotorState lastMotorState = MotorState.Idle;
@@ -220,6 +220,7 @@ namespace TusurUI
                 if (IsStepMotorErrorCodeStatusFailed(StepMotor.Forward()))
                     return;
 
+                lastMotorState = MotorState.Forward;
                 SetShutterImageToOpened();
             }
             catch (Exception ex)
@@ -240,6 +241,7 @@ namespace TusurUI
                 if (IsStepMotorErrorCodeStatusFailed(StepMotor.Reverse()))
                     return;
 
+                lastMotorState = MotorState.Reverse;
                 SetShutterImageToClosed();
             }
             catch (Exception ex)
@@ -258,6 +260,8 @@ namespace TusurUI
 
                 if (IsStepMotorErrorCodeStatusFailed(StepMotor.Stop()))
                     return;
+
+                lastMotorState = MotorState.Idle;
             }
             catch (Exception ex)
             {
@@ -455,18 +459,5 @@ namespace TusurUI
             TurnOffPowerSupply();
             StopStepMotor();
         }
-
-        //private void ResetZPButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (IsPowerSupplyErrorCodeStatusFailed(PowerSupply.ResetZP()))
-        //            return;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ShowError(ex.Message);
-        //    }
-        //}
     }
 }
