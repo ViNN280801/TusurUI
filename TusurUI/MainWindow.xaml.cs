@@ -401,6 +401,9 @@ namespace TusurUI
                     StartButton.IsEnabled = true;
                     currentValue = value;
                     textBox.ToolTip = "Введите значение от 0 до 160";
+
+                    if (value >= 140)
+                        ShowWarning("Введенное значение тока близко к максимуму. Максимальное значение - 160 А");
                 }
                 else
                 {
