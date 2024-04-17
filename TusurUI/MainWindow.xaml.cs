@@ -139,6 +139,21 @@ namespace TusurUI
                 PowerSupplyComPortComboBox.SelectedIndex = -1;
         }
 
+        private void ConnectToPowerSupply()
+        {
+            try
+            {
+                if (IsPowerSupplyCOMportNull())
+                    return;
+                PowerSupply.Connect(powerSupplyCOM);
+            }
+            catch (Exception ex)
+            {
+                ShowError(ex.Message);
+                UncheckVaporizerButton();
+            }
+        }
+
         private void TurnOnPowerSupply()
         {
             try
@@ -148,6 +163,24 @@ namespace TusurUI
                 PowerSupply.Connect(powerSupplyCOM);
 
                 if (IsPowerSupplyErrorCodeStatusFailed(PowerSupply.TurnOn()))
+                    return;
+            }
+            catch (Exception ex)
+            {
+                ShowError(ex.Message);
+                UncheckVaporizerButton();
+            }
+        }
+
+        private void ResetZP()
+        {
+            try
+            {
+                if (IsPowerSupplyCOMportNull())
+                    return;
+                PowerSupply.Connect(powerSupplyCOM);
+
+                if (IsPowerSupplyErrorCodeStatusFailed(PowerSupply.ResetZP()))
                     return;
             }
             catch (Exception ex)
@@ -344,6 +377,7 @@ namespace TusurUI
         private void VaporizerButtonBase_Checked(object sender, RoutedEventArgs e)
         {
             CheckVaporizerButton();
+            ConnectToPowerSupply();
         }
 
         private void VaporizerButtonBase_Unchecked(object sender, RoutedEventArgs e)
@@ -360,20 +394,20 @@ namespace TusurUI
                 if (double.TryParse(newText,
                     System.Globalization.NumberStyles.Any,
                     System.Globalization.CultureInfo.InvariantCulture,
-                    out double value) && (value >= 0 && value <= 200))
+                    out double value) && (value >= 0 && value <= 160))
                 {
                     textBox.ClearValue(Border.BorderBrushProperty);
                     textBox.ClearValue(Border.BorderThicknessProperty);
                     StartButton.IsEnabled = true;
                     currentValue = value;
-                    textBox.ToolTip = "Введите значение от 0 до 200";
+                    textBox.ToolTip = "Введите значение от 0 до 160";
                 }
                 else
                 {
                     textBox.BorderBrush = new SolidColorBrush(Colors.Red);
                     textBox.BorderThickness = new Thickness(1);
                     StartButton.IsEnabled = false;
-                    textBox.ToolTip = "Неверное значение. Допустимый диапазон: 0-200";
+                    textBox.ToolTip = "Неверное значение. Допустимый диапазон: 0-160";
                 }
             }
         }
@@ -391,6 +425,7 @@ namespace TusurUI
                     TurnOnPowerSupply();
                     ApplyVoltageOnPowerSupply();
                     ReadCurrentVoltageAndChangeTextBox();
+                    ResetZP();
                 }
                 catch (Exception ex)
                 {
