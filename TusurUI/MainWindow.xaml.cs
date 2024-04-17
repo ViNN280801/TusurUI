@@ -147,9 +147,6 @@ namespace TusurUI
                     return;
                 PowerSupply.Connect(powerSupplyCOM);
 
-                if (IsPowerSupplyErrorCodeStatusFailed(PowerSupply.ResetZP()))
-                    return;
-
                 if (IsPowerSupplyErrorCodeStatusFailed(PowerSupply.TurnOn()))
                     return;
             }
@@ -347,7 +344,6 @@ namespace TusurUI
         private void VaporizerButtonBase_Checked(object sender, RoutedEventArgs e)
         {
             CheckVaporizerButton();
-            TurnOnPowerSupply();
         }
 
         private void VaporizerButtonBase_Unchecked(object sender, RoutedEventArgs e)
@@ -392,6 +388,7 @@ namespace TusurUI
 
                 try
                 {
+                    TurnOnPowerSupply();
                     ApplyVoltageOnPowerSupply();
                     ReadCurrentVoltageAndChangeTextBox();
                 }
