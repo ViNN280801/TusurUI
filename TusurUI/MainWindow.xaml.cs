@@ -210,16 +210,20 @@ namespace TusurUI
             try
             {
                 int current = PowerSupply.ReadCurrent();
-                ShowWarning(PowerSupply.GetErrorMessage(current));
                 if (current == -1)
+                {
+                    ShowWarning(PowerSupply.GetErrorMessage(current));
                     return;
+                }
 
                 CurrentValueLabel.Content = current.ToString() + " A";
 
                 int voltage = PowerSupply.ReadVoltage();
-                ShowWarning(PowerSupply.GetErrorMessage(voltage));
                 if (voltage == -2)
+                {
+                    ShowWarning(PowerSupply.GetErrorMessage(voltage));
                     return;
+                }
 
                 VoltageValueLabel.Content = voltage.ToString() + " В";
             }
@@ -403,23 +407,23 @@ namespace TusurUI
                 if (double.TryParse(newText,
                     System.Globalization.NumberStyles.Any,
                     System.Globalization.CultureInfo.InvariantCulture,
-                    out double value) && (value >= 0 && value <= 160))
+                    out double value) && (value >= 0 && value <= 200))
                 {
                     textBox.ClearValue(Border.BorderBrushProperty);
                     textBox.ClearValue(Border.BorderThicknessProperty);
                     StartButton.IsEnabled = true;
                     currentValue = value;
-                    textBox.ToolTip = "Введите значение от 0 до 160";
+                    textBox.ToolTip = "Введите значение от 0 до 200";
 
                     if (value >= 140)
-                        ShowWarning("Опасность перегрева тигля. Введенное значение тока близко к максимуму. Максимальное значение - 160 А");
+                        ShowWarning("Опасность перегрева тигля. Введенное значение тока близко к максимуму. Максимальное значение - 200 А");
                 }
                 else
                 {
                     textBox.BorderBrush = new SolidColorBrush(Colors.Red);
                     textBox.BorderThickness = new Thickness(1);
                     StartButton.IsEnabled = false;
-                    textBox.ToolTip = "Неверное значение. Допустимый диапазон: 0-160";
+                    textBox.ToolTip = "Неверное значение. Допустимый диапазон: 0-200 А";
                 }
             }
         }
