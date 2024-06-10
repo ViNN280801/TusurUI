@@ -415,7 +415,7 @@ namespace TusurUI
                     currentValue = value;
                     textBox.ToolTip = "Введите значение от 0 до 200";
 
-                    if (value >= 140)
+                    if (value >= 160)
                         ShowWarning("Опасность перегрева тигля. Введенное значение тока близко к максимуму. Максимальное значение - 200 А");
                 }
                 else
