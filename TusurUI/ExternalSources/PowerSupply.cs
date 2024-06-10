@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace TusurUI.Source
 {
@@ -13,6 +12,9 @@ namespace TusurUI.Source
 
         [DllImport("Libs/PowerSupply.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern int PowerSupply_ReadCurrent();
+
+        [DllImport("Libs/PowerSupply.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int PowerSupply_ReadVoltage();
 
         [DllImport("Libs/PowerSupply.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern int PowerSupply_TurnOn();
@@ -30,12 +32,16 @@ namespace TusurUI.Source
         public static int TurnOff() { return PowerSupply_TurnOff(); }
         public static int SetCurrentVoltage(ushort current, ushort voltage) { return PowerSupply_SetCurrentVoltage(current, voltage); }
         public static int ReadCurrent() { return PowerSupply_ReadCurrent(); }
+
+        public static int ReadVoltage() {  return PowerSupply_ReadVoltage(); }
         public static int ResetZP() { return PowerSupply_ResetZP(); }
 
         private static string GetErrorMessageEN(int errorCode)
         {
             return errorCode switch
             {
+                -2 => "Error reading voltage register 21 (0x15)",
+                -1 => "Error reading current register 20 (0x14)",
                 0 => "Operation successful.",
                 1 => "Failed to initialize connection.",
                 2 => "Failed to set device as slave.",
@@ -56,6 +62,8 @@ namespace TusurUI.Source
         {
             return errorCode switch
             {
+                -2 => "Не удалось прочитать значение напряжения с регистра 21 (0x15)",
+                -1 => "Не удалось прочитать значение тока с регистра 20 (0x14)",
                 0 => "Операция прошла успешно.",
                 1 => "Не удалось инициализировать соединение.",
                 2 => "Не удалось установить устройство как slave.",

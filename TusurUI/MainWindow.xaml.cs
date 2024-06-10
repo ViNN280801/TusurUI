@@ -210,10 +210,18 @@ namespace TusurUI
             try
             {
                 int current = PowerSupply.ReadCurrent();
+                ShowWarning(PowerSupply.GetErrorMessage(current));
                 if (current == -1)
                     return;
 
                 CurrentValueLabel.Content = current.ToString() + " A";
+
+                int voltage = PowerSupply.ReadVoltage();
+                ShowWarning(PowerSupply.GetErrorMessage(voltage));
+                if (voltage == -2)
+                    return;
+
+                VoltageValueLabel.Content = voltage.ToString() + " В";
             }
             catch (Exception ex)
             {
@@ -368,6 +376,7 @@ namespace TusurUI
             isVaporizerWorks = false;
 
             CurrentValueLabel.Content = "0 A";
+            VoltageValueLabel.Content = "0 В";
         }
 
         private void SetShutterImageToClosed() { ComponentManager.ChangeIndicatorPicture(Vaporizer, "Images/заслонка закр фото.png"); }
