@@ -28,7 +28,7 @@ namespace TusurUI
         {
             InitializeComponent();
             InitializeComPortUpdateTimer();
-            InitializeStatusCheckTimer();
+            // InitializeStatusCheckTimer();
             PopulateComPortComboBoxes();
         }
 
