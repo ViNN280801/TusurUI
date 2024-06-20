@@ -30,6 +30,12 @@ namespace TusurUI
             InitializeComPortUpdateTimer();
             // InitializeStatusCheckTimer();
             PopulateComPortComboBoxes();
+
+            // If shutter opened when program started - change icon.
+            if (IsShutterOpened())
+                SetShutterImageToOpened();
+            else
+                SetShutterImageToClosed();
         }
 
         private void InitializeComPortUpdateTimer()
@@ -314,6 +320,9 @@ namespace TusurUI
         private void ShowWarning(string message, string title = "Предупреждение") { MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Warning); }
 
         private void ShowError(string message, string title = "Ошибка") { MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error); }
+
+        private bool IsShutterOpened() { return StepMotor.IsForwardButtonPressed(); }
+        private bool IsShutterClosed() { return StepMotor.IsReverseButtonPressed(); }
 
         private bool IsPowerSupplyErrorCodeStatusFailed(int errorCode)
         {
