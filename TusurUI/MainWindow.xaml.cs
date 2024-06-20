@@ -16,6 +16,8 @@ namespace TusurUI
     {
         private DispatcherTimer? _comPortUpdateTimer;
         private DispatcherTimer? _statusCheckTimer;
+        private DispatcherTimer? _shutterCheckTimer;
+
 
         private bool isVaporizerWorks = false;
         private double currentValue { get; set; }
@@ -28,14 +30,9 @@ namespace TusurUI
         {
             InitializeComponent();
             InitializeComPortUpdateTimer();
+            InitializeShutterCheckTimer();
             // InitializeStatusCheckTimer();
             PopulateComPortComboBoxes();
-
-            // If shutter opened when program started - change icon.
-            if (IsShutterOpened())
-                SetShutterImageToOpened();
-            else
-                SetShutterImageToClosed();
         }
 
         private void InitializeComPortUpdateTimer()
@@ -47,6 +44,22 @@ namespace TusurUI
         }
 
         private void ComPortUpdateTimer_Tick(object? sender, EventArgs e) { PopulateComPortComboBoxes(); }
+
+        private void InitializeShutterCheckTimer()
+        {
+            _shutterCheckTimer = new DispatcherTimer();
+            _shutterCheckTimer.Interval = TimeSpan.FromSeconds(5);
+            _shutterCheckTimer.Tick += ShutterCheckTimer_Tick;
+            _shutterCheckTimer.Start();
+        }
+
+        private void ShutterCheckTimer_Tick(object? sender, EventArgs e)
+        {
+            if (IsShutterOpened())
+                SetShutterImageToOpened();
+            else
+                SetShutterImageToClosed();
+        }
 
         private void InitializeStatusCheckTimer()
         {
